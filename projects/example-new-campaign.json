@@ -1,0 +1,12 @@
+{
+  "id": "example-new-campaign",
+  "name": "Latto - New Album",
+  "description": "Fan page tracker for Latto's new album rollout",
+  "status": "pending",
+  "platform": "tiktok",
+  "accounts": ["lattopage1", "lattopage2"],
+  "color": "#db2777",
+  "tags": ["rap", "fan-pages", "album"],
+  "created": "2026-03-18",
+  "team": ["Omid"]
+}

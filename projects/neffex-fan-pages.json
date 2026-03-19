@@ -1,0 +1,12 @@
+{
+  "id": "neffex-fan-pages",
+  "name": "NEFFEX Fan Pages",
+  "description": "Tracking organic TikTok fan page growth for NEFFEX and Bryce Savage",
+  "status": "active",
+  "platform": "tiktok",
+  "accounts": ["neffexdaily", "savagebryce4life"],
+  "color": "#7c3aed",
+  "tags": ["fan-pages", "edm", "rap"],
+  "created": "2026-02-19",
+  "team": ["Omid"]
+}

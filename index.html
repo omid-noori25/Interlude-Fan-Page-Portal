@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interlude Studios — Fan Page Database</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #000000; --white: #ffffff; --off: #f4f3ef;
+    --gray1: #1a1a1a; --gray2: #333333; --gray3: #888888; --gray4: #cccccc; --gray5: #e8e8e4;
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  }
+  html { background: var(--off); }
+  body { font-family: var(--font); color: var(--black); min-height: 100vh; }
+  a { color: inherit; text-decoration: none; }
+  header { background: var(--black); padding: 0 40px; display: flex; align-items: center; justify-content: space-between; height: 64px; border-bottom: 1px solid var(--gray1); }
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo-mark { width: 32px; height: 32px; flex-shrink: 0; }
+  .logo-wordmark { font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white); }
+  .header-right { font-size: 11px; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray3); }
+  .title-bar { background: var(--black); border-bottom: 1px solid #222; padding: 28px 40px 24px; }
+  .title-bar-inner { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; }
+  .page-title { font-size: 42px; font-weight: 900; letter-spacing: -0.02em; line-height: 1; color: var(--white); text-transform: uppercase; }
+  .page-sub { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gray3); margin-top: 8px; font-weight: 400; }
+  .new-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border: 1px solid var(--white); color: var(--white); font-family: var(--font); font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; background: transparent; transition: background .15s, color .15s; white-space: nowrap; }
+  .new-btn:hover { background: var(--white); color: var(--black); }
+  .filter-bar { background: var(--black); border-bottom: 1px solid #222; padding: 0 40px; display: flex; align-items: stretch; gap: 0; }
+  .filter-tab { padding: 14px 20px; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray3); cursor: pointer; border-bottom: 2px solid transparent; transition: color .15s, border-color .15s; white-space: nowrap; }
+  .filter-tab:hover { color: var(--white); }
+  .filter-tab.active { color: var(--white); border-bottom-color: var(--white); }
+  .filter-divider { width: 1px; background: #222; margin: 10px 0; }
+  .search-wrap { margin-left: auto; display: flex; align-items: center; }
+  .search-box { background: transparent; border: none; border-left: 1px solid #222; padding: 0 20px; height: 100%; font-family: var(--font); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); outline: none; width: 200px; }
+  .search-box::placeholder { color: var(--gray3); }
+  .summary-strip { background: var(--black); border-bottom: 1px solid #111; padding: 0 40px; display: flex; align-items: stretch; }
+  .sum-item { padding: 18px 28px 18px 0; border-right: 1px solid #222; margin-right: 28px; }
+  .sum-item:last-child { border-right: none; margin-right: 0; }
+  .sum-val { font-size: 24px; font-weight: 900; color: var(--white); letter-spacing: -0.02em; }
+  .sum-lbl { font-size: 10px; font-weight: 400; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray3); margin-top: 2px; }
+  .main { padding: 32px 40px 60px; }
+  .campaign-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 1px; background: var(--black); border: 1px solid var(--black); }
+  .ccard { background: var(--white); display: flex; flex-direction: column; cursor: pointer; transition: background .15s; position: relative; }
+  .ccard:hover { background: var(--off); }
+  .ccard-body { padding: 28px 28px 0; flex: 1; }
+  .ccard-top { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px; }
+  .ccard-title { font-size: 17px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; flex: 1; }
+  .status-chip { font-size: 9px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 9px; border: 1px solid currentColor; white-space: nowrap; flex-shrink: 0; margin-top: 3px; }
+  .status-active   { color: var(--black); border-color: var(--black); }
+  .status-pending  { color: var(--gray3); border-color: var(--gray4); }
+  .status-complete { color: var(--gray2); border-color: var(--gray3); }
+  .status-cancelled{ color: var(--gray4); border-color: var(--gray5); }
+  .ccard-accounts { font-size: 11px; font-weight: 400; letter-spacing: 0.08em; color: var(--gray3); margin-bottom: 6px; }
+  .ccard-desc { font-size: 12px; color: var(--gray2); line-height: 1.5; margin-bottom: 20px; }
+  .ccard-stats { border-top: 1px solid var(--black); display: grid; grid-template-columns: repeat(5, 1fr); }
+  .cs { padding: 14px 12px; border-right: 1px solid var(--black); text-align: center; }
+  .cs:last-child { border-right: none; }
+  .cs-val { font-size: 15px; font-weight: 800; letter-spacing: -0.02em; }
+  .cs-lbl { font-size: 9px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray3); margin-top: 2px; }
+  .ccard-foot { border-top: 1px solid var(--black); padding: 10px 28px; display: flex; align-items: center; gap: 8px; background: inherit; }
+  .tag { font-size: 9px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; padding: 3px 7px; border: 1px solid var(--gray4); color: var(--gray3); }
+  .ccard-date { font-size: 10px; letter-spacing: 0.08em; color: var(--gray4); margin-left: auto; font-weight: 400; text-transform: uppercase; }
+  .ccard-arrow { font-size: 14px; color: var(--gray4); transition: color .15s, transform .15s; }
+  .ccard:hover .ccard-arrow { color: var(--black); transform: translateX(3px); }
+  .ccard-nodata { opacity: 0.45; cursor: default; pointer-events: none; }
+  .ccard-pending-badge { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: repeating-linear-gradient(90deg, var(--black) 0, var(--black) 8px, transparent 8px, transparent 14px); }
+  .empty { text-align: center; padding: 80px 20px; color: var(--gray3); background: var(--white); }
+  .empty-title { font-size: 28px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; color: var(--black); margin-bottom: 8px; }
+  .empty-sub { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; }
+  @media (max-width: 680px) {
+    header, .title-bar, .filter-bar, .summary-strip, .main { padding-left: 20px; padding-right: 20px; }
+    .page-title { font-size: 28px; }
+    .campaign-grid { grid-template-columns: 1fr; }
+    .ccard-stats { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark"><svg viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="104,101 96,114 149,143 157,130"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="96,114 149,143 153,137 100,108"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="96,114 104,101 51,72 43,85"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="104,101 51,72 55,66 108,95"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="96,101 104,114 157,85 149,72"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="104,114 157,85 161,79 108,108"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="104,114 96,101 43,130 51,143"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="96,101 43,130 47,136 100,107"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="92,108 108,108 108,52 92,52"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="108,108 108,52 114,48 114,104"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="108,108 92,108 92,164 108,164"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="92,108 92,164 98,160 98,104"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="100,30 114,38 100,46 86,38"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="100,46 114,54 114,38 100,30"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="100,46 100,30 86,38 86,54"/></svg></div>
+    <span class="logo-wordmark">Interlude Studios</span>
+  </div>
+  <div class="header-right">Fan Page Database · Mar 18, 2026 22:08</div>
+</header>
+
+<div class="title-bar">
+  <div class="title-bar-inner">
+    <div>
+      <div class="page-title">Campaigns +</div>
+      <div class="page-sub" id="campaignCount">Loading…</div>
+    </div>
+    <button class="new-btn" onclick="alert('To add a campaign: create a new .json file in the /projects/ folder and re-run scraper.py')">
+      + New Campaign
+    </button>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <div class="filter-tab active" onclick="filterCards('all',this)">All</div>
+  <div class="filter-tab" onclick="filterCards('active',this)">Active</div>
+  <div class="filter-tab" onclick="filterCards('pending',this)">Pending</div>
+  <div class="filter-tab" onclick="filterCards('complete',this)">Complete</div>
+  <div class="filter-tab" onclick="filterCards('cancelled',this)">Cancelled</div>
+  <div class="search-wrap">
+    <input class="search-box" placeholder="Search campaigns…" oninput="searchCards(this.value)">
+  </div>
+</div>
+
+<div class="summary-strip">
+  <div class="sum-item"><div class="sum-val" id="s-total">—</div><div class="sum-lbl">Total Campaigns</div></div>
+  <div class="sum-item"><div class="sum-val" id="s-active">—</div><div class="sum-lbl">Active</div></div>
+  <div class="sum-item"><div class="sum-val" id="s-posts">—</div><div class="sum-lbl">Total Posts</div></div>
+  <div class="sum-item"><div class="sum-val" id="s-views">—</div><div class="sum-lbl">Total Views</div></div>
+</div>
+
+<div class="main">
+  <div class="campaign-grid" id="campaignGrid"></div>
+</div>
+
+<script>
+const CAMPAIGNS = [
+  {
+    id: "example-new-campaign",
+    name: "Latto - New Album",
+    description: "Fan page tracker for Latto\'s new album rollout",
+    status: "pending",
+    accounts: ["lattopage1","lattopage2"],
+    tags: ["rap","fan-pages","album"],
+    created: "2026-03-18",
+    scraped_at: null,
+    posts: 0,
+    views: 0,
+    likes: 0,
+    comments: 0,
+    shares: 0,
+  },
+  {
+    id: "neffex-fan-pages",
+    name: "NEFFEX Fan Pages",
+    description: "Tracking organic TikTok fan page growth for NEFFEX and Bryce Savage",
+    status: "active",
+    accounts: ["neffexdaily","savagebryce4life"],
+    tags: ["fan-pages","edm","rap"],
+    created: "2026-02-19",
+    scraped_at: "2026-03-18",
+    posts: 6,
+    views: 204680,
+    likes: 13362,
+    comments: 70,
+    shares: 418,
+  }
+];
+
+function fmt(n) {
+  if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+  if (n >= 1000)    return (n/1000).toFixed(1) + 'K';
+  return n.toString();
+}
+function statusClass(s) {
+  return {active:'status-active',pending:'status-pending',complete:'status-complete',cancelled:'status-cancelled'}[s]||'status-pending';
+}
+function renderGrid(data) {
+  const grid = document.getElementById('campaignGrid');
+  if (!data.length) {
+    grid.innerHTML = '<div class="empty"><div class="empty-title">No Campaigns</div><div class="empty-sub">Add a .json config to /projects/ and run scraper.py</div></div>';
+    return;
+  }
+  grid.innerHTML = data.map(c => {
+    const hasData = c.posts > 0;
+    const link    = hasData ? `campaigns/${c.id}.html` : '#';
+    const sc      = statusClass(c.status);
+    const accts   = c.accounts.slice(0,3).map(a=>'@'+a).join(' · ') + (c.accounts.length>3?' + more':'');
+    const tagHTML = c.tags.slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('');
+    return `<a class="ccard${hasData?'':' ccard-nodata'}" href="${link}">
+      ${!hasData?'<div class="ccard-pending-badge"></div>':''}
+      <div class="ccard-body">
+        <div class="ccard-top">
+          <div class="ccard-title">${c.name}</div>
+          <span class="status-chip ${sc}">${c.status}</span>
+        </div>
+        <div class="ccard-accounts">${accts}</div>
+        ${c.description?`<div class="ccard-desc">${c.description}</div>`:''}
+      </div>
+      <div class="ccard-stats">
+        <div class="cs"><div class="cs-val">${c.posts}</div><div class="cs-lbl">Posts</div></div>
+        <div class="cs"><div class="cs-val">${fmt(c.views)}</div><div class="cs-lbl">Views</div></div>
+        <div class="cs"><div class="cs-val">${fmt(c.likes)}</div><div class="cs-lbl">Likes</div></div>
+        <div class="cs"><div class="cs-val">${fmt(c.shares)}</div><div class="cs-lbl">Shares</div></div>
+        <div class="cs"><div class="cs-val">${c.accounts.length}</div><div class="cs-lbl">Accounts</div></div>
+      </div>
+      <div class="ccard-foot">
+        ${tagHTML}
+        <span class="ccard-date">${c.scraped_at?'Updated '+c.scraped_at:'Not yet scraped'}</span>
+        ${hasData?'<span class="ccard-arrow">→</span>':''}
+      </div>
+    </a>`;
+  }).join('');
+}
+function updateSummary(data) {
+  const active = data.filter(c=>c.status==='active').length;
+  const posts  = data.reduce((s,c)=>s+c.posts,0);
+  const views  = data.reduce((s,c)=>s+c.views,0);
+  document.getElementById('s-total').textContent  = data.length;
+  document.getElementById('s-active').textContent = active;
+  document.getElementById('s-posts').textContent  = posts.toLocaleString();
+  document.getElementById('s-views').textContent  = fmt(views);
+  document.getElementById('campaignCount').textContent = `${data.length} campaign${data.length!==1?'s':''} · ${active} active`;
+}
+let currentFilter='all', currentSearch='';
+function filterCards(status,el) {
+  currentFilter=status;
+  document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  applyFilters();
+}
+function searchCards(q) {
+  currentSearch=q.toLowerCase();
+  applyFilters();
+}
+function applyFilters() {
+  let data=CAMPAIGNS;
+  if(currentFilter!=='all') data=data.filter(c=>c.status===currentFilter);
+  if(currentSearch) data=data.filter(c=>
+    c.name.toLowerCase().includes(currentSearch)||
+    c.accounts.some(a=>a.toLowerCase().includes(currentSearch))||
+    (c.description||'').toLowerCase().includes(currentSearch)
+  );
+  renderGrid(data);
+}
+updateSummary(CAMPAIGNS);
+renderGrid(CAMPAIGNS);
+</script>
+</body>
+</html>

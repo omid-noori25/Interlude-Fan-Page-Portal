@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEFFEX Fan Pages — Interlude Studios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #000000; --white: #ffffff; --off: #f4f3ef;
+    --gray1: #1a1a1a; --gray2: #333333; --gray3: #888888; --gray4: #cccccc; --gray5: #e8e8e4;
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  }
+  html { background: var(--off); }
+  body { font-family: var(--font); color: var(--black); min-height: 100vh; }
+  a { color: inherit; text-decoration: none; }
+  header { background: var(--black); padding: 0 40px; display: flex; align-items: center; gap: 24px; height: 64px; border-bottom: 1px solid #1a1a1a; position: sticky; top: 0; z-index: 200; }
+  .back-btn { font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray3); padding: 8px 0; border-bottom: 1px solid transparent; transition: color .15s, border-color .15s; white-space: nowrap; flex-shrink: 0; }
+  .back-btn:hover { color: var(--white); border-bottom-color: var(--white); }
+  .header-divider { width: 1px; height: 24px; background: #2a2a2a; flex-shrink: 0; }
+  .header-logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .header-logo svg { width: 22px; height: 22px; }
+  .header-logo-text { font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--white); }
+  .header-campaign { flex: 1; display: flex; align-items: center; gap: 12px; overflow: hidden; }
+  .header-campaign-name { font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: var(--white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .header-status { font-size: 9px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; padding: 3px 8px; border: 1px solid var(--white); color: var(--white); flex-shrink: 0; }
+  .share-btn { margin-left: auto; padding: 9px 18px; border: 1px solid #333; color: var(--gray3); font-family: var(--font); font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; background: transparent; transition: all .15s; flex-shrink: 0; }
+  .share-btn:hover { border-color: var(--white); color: var(--white); }
+  .campaign-bar { background: var(--black); border-bottom: 1px solid #111; padding: 22px 40px 20px; }
+  .campaign-title { font-size: 38px; font-weight: 900; letter-spacing: -0.02em; color: var(--white); text-transform: uppercase; line-height: 1; }
+  .campaign-meta { font-size: 11px; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray3); margin-top: 8px; display: flex; align-items: center; gap: 16px; }
+  .meta-sep { color: #333; }
+  .tabs { background: var(--black); border-bottom: 1px solid #111; padding: 0 40px; display: flex; align-items: stretch; position: sticky; top: 64px; z-index: 100; }
+  .tab { padding: 14px 20px; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gray3); cursor: pointer; border-bottom: 2px solid transparent; transition: color .15s, border-color .15s; white-space: nowrap; }
+  .tab:hover { color: var(--white); }
+  .tab.active { color: var(--white); border-bottom-color: var(--white); }
+
+  /* ── Date filter bar ── */
+  .date-filter-bar { background: var(--off); border-bottom: 1px solid var(--gray5); padding: 10px 40px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; position: sticky; top: 112px; z-index: 90; }
+  .df-label { font-size: 9px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray3); flex-shrink: 0; }
+  .dfbtn-group { display: flex; gap: 0; border: 1px solid var(--black); flex-shrink: 0; }
+  .dfbtn { padding: 7px 14px; font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; color: var(--gray3); background: var(--white); border-right: 1px solid var(--black); font-family: var(--font); transition: all .15s; border-top: none; border-bottom: none; border-left: none; }
+  .dfbtn:last-child { border-right: none; }
+  .dfbtn:hover { background: var(--off); color: var(--black); }
+  .dfbtn.active { background: var(--black); color: var(--white); }
+  .custom-dates { display: none; align-items: center; gap: 8px; }
+  .custom-dates input[type="date"] { padding: 6px 10px; font-size: 10px; font-family: var(--font); letter-spacing: 0.06em; border: 1px solid var(--black); background: var(--white); color: var(--black); outline: none; }
+  .custom-dates input[type="date"]:focus { background: var(--off); }
+  .custom-dates .csep { font-size: 11px; color: var(--gray3); }
+  .df-count { font-size: 10px; color: var(--gray3); letter-spacing: 0.08em; text-transform: uppercase; margin-left: auto; }
+
+  .content { padding: 0 40px 60px; }
+  .section { display: none; }
+  .section.active { display: block; }
+  .stat-section { margin-top: 32px; margin-bottom: 32px; }
+  .stat-section-label { font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gray3); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--gray5); display: flex; align-items: center; gap: 10px; }
+  .stat-section-label::before { content: ''; flex: 1; }
+  .stat-section-label::after  { content: ''; flex: 1; }
+
+  /* auto-fit collapses empty tracks — no more black phantom columns */
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px; background: var(--black); border: 1px solid var(--black); }
+  .stat-card { background: var(--white); padding: 20px 18px 18px; }
+  .stat-label { font-size: 9px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray3); margin-bottom: 10px; }
+  .stat-value { font-size: 28px; font-weight: 900; letter-spacing: -0.03em; line-height: 1; }
+  .stat-sub { font-size: 10px; color: var(--gray3); margin-top: 5px; letter-spacing: 0.06em; }
+
+  /* compare-grid: flex so 1 card centres, 2+ cards share the row */
+  .compare-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1px; background: var(--black); border: 1px solid var(--black); margin-bottom: 32px; }
+  .compare-card { background: var(--white); padding: 24px; flex: 1 1 280px; max-width: 440px; }
+  .compare-card-title { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 18px; border-bottom: 1px solid var(--black); padding-bottom: 12px; }
+  .compare-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--gray5); font-size: 13px; }
+  .compare-row:last-child { border-bottom: none; }
+  .compare-row .cl { color: var(--gray3); font-size: 11px; letter-spacing: 0.06em; }
+  .compare-row .cv { font-weight: 700; }
+
+  .chart-grid { display: grid; gap: 1px; background: var(--black); border: 1px solid var(--black); }
+  .chart-grid.two { grid-template-columns: 1fr 1fr; }
+  .chart-grid.one { grid-template-columns: 1fr; }
+  .chart-card { background: var(--white); padding: 24px; }
+  .chart-title { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 4px; }
+  .chart-sub { font-size: 10px; color: var(--gray3); letter-spacing: 0.06em; margin-bottom: 20px; }
+  .metric-row { display: flex; gap: 0; margin-bottom: 20px; border: 1px solid var(--black); width: fit-content; }
+  .mpill { padding: 7px 14px; font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; color: var(--gray3); background: var(--white); border-right: 1px solid var(--black); transition: all .15s; }
+  .mpill:last-child { border-right: none; }
+  .mpill:hover { background: var(--off); color: var(--black); }
+  .mpill.active { background: var(--black); color: var(--white); }
+  .table-wrap { border: 1px solid var(--black); background: var(--black); margin-bottom: 32px; }
+  .table-head-bar { background: var(--white); padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; border-bottom: 1px solid var(--black); }
+  .table-head-bar h3 { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+  .tfilter-group { display: flex; gap: 0; border: 1px solid var(--black); }
+  .tfbtn { padding: 7px 14px; font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; color: var(--gray3); background: var(--white); border-right: 1px solid var(--black); font-family: var(--font); transition: all .15s; border-top: none; border-bottom: none; border-left: none; }
+  .tfbtn:last-child { border-right: none; }
+  .tfbtn:hover { background: var(--off); color: var(--black); }
+  .tfbtn.active { background: var(--black); color: var(--white); }
+  .table-scroll { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; background: var(--white); }
+  th { text-align: left; padding: 10px 14px; font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gray3); background: var(--off); cursor: pointer; user-select: none; border-bottom: 1px solid var(--black); white-space: nowrap; }
+  th:hover { color: var(--black); }
+  td { padding: 11px 14px; font-size: 12px; border-bottom: 1px solid var(--gray5); }
+  tr.vrow { cursor: pointer; }
+  tr.vrow:hover td { background: var(--off); }
+  .td-desc { max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--gray3); font-size: 11px; }
+  .mb { display: flex; align-items: center; gap: 8px; }
+  .bbg { flex: 1; height: 2px; background: var(--gray5); }
+  .bf { height: 100%; background: var(--black); }
+  .acct-tag { font-size: 9px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 3px 7px; border: 1px solid var(--black); }
+  .posts-summary { display: flex; gap: 0; border: 1px solid var(--black); background: var(--black); margin-bottom: 20px; }
+  .psum { background: var(--white); flex: 1; padding: 16px 18px; border-right: 1px solid var(--black); }
+  .psum:last-child { border-right: none; }
+  .psum-val { font-size: 20px; font-weight: 900; letter-spacing: -0.02em; }
+  .psum-lbl { font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gray3); margin-top: 3px; }
+  .post-filters { display: flex; gap: 0; border: 1px solid var(--black); width: fit-content; margin-bottom: 20px; }
+  .pfbtn { padding: 9px 16px; font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; color: var(--gray3); background: var(--white); border-right: 1px solid var(--black); font-family: var(--font); transition: all .15s; border-top: none; border-bottom: none; border-left: none; }
+  .pfbtn:last-child { border-right: none; }
+  .pfbtn:hover { background: var(--off); color: var(--black); }
+  .pfbtn.active { background: var(--black); color: var(--white); }
+  .posts-note { font-size: 10px; letter-spacing: 0.08em; color: var(--gray3); padding: 10px 14px; border: 1px solid var(--gray5); background: var(--white); margin-bottom: 20px; text-transform: uppercase; }
+
+  /* auto-fit fixes black phantom cells in posts grid */
+  .pgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(168px, 1fr)); gap: 1px; background: var(--black); border: 1px solid var(--black); }
+  .pcard { background: var(--white); display: flex; flex-direction: column; cursor: pointer; transition: background .12s; text-decoration: none; color: inherit; }
+  .pcard:hover { background: var(--off); }
+  .pthumb { position: relative; width: 100%; aspect-ratio: 9/16; background: var(--black); overflow: hidden; flex-shrink: 0; }
+  .pthumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity .3s; }
+  .pthumb .ph { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+  .pthumb .ph .tl { font-size: 2rem; color: #333; }
+  .pthumb .ph .lt { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #444; }
+  .pthumb .pso { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.9)); padding: 20px 8px 8px; display: flex; gap: 8px; }
+  .ostat { font-size: 9px; font-weight: 600; color: var(--white); letter-spacing: 0.04em; }
+  .pplat { position: absolute; top: 8px; left: 8px; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: var(--white); background: rgba(0,0,0,0.7); padding: 3px 6px; text-transform: uppercase; }
+  .pfoot { padding: 10px 10px 12px; display: flex; flex-direction: column; gap: 4px; flex: 1; border-top: 1px solid var(--black); }
+  .puser { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+  .pdesc { font-size: 10px; color: var(--gray3); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .pstats { display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap; }
+  .pchip { font-size: 9px; color: var(--gray3); letter-spacing: 0.06em; }
+  .pdate { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray4); margin-top: 2px; }
+  .empty-msg { padding: 28px 20px; background: var(--white); border: 1px solid var(--black); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray3); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .sp { width: 16px; height: 16px; border: 1.5px solid #333; border-top-color: var(--white); border-radius: 50%; animation: spin .8s linear infinite; }
+  @media (max-width: 768px) {
+    header, .campaign-bar, .tabs, .date-filter-bar, .content { padding-left: 20px; padding-right: 20px; }
+    .campaign-title { font-size: 26px; }
+    .chart-grid.two { grid-template-columns: 1fr; }
+    .compare-card { flex: 1 1 100%; max-width: 100%; }
+    .posts-summary { flex-wrap: wrap; }
+    .pgrid { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="back-btn" href="../index.html">← All Campaigns</a>
+  <div class="header-divider"></div>
+  <div class="header-logo"><svg viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg"><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="104,101 96,114 149,143 157,130"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="96,114 149,143 153,137 100,108"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="96,114 104,101 51,72 43,85"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="104,101 51,72 55,66 108,95"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="96,101 104,114 157,85 149,72"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="104,114 157,85 161,79 108,108"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="104,114 96,101 43,130 51,143"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="96,101 43,130 47,136 100,107"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="92,108 108,108 108,52 92,52"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="108,108 108,52 114,48 114,104"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="108,108 92,108 92,164 108,164"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="92,108 92,164 98,160 98,104"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="100,30 114,38 100,46 86,38"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="100,46 114,54 114,38 100,30"/><polygon fill="#000" stroke="white" stroke-width="2.8" stroke-linejoin="round" points="100,46 100,30 86,38 86,54"/></svg><span class="header-logo-text">Interlude Studios</span></div>
+  <div class="header-divider"></div>
+  <div class="header-campaign">
+    <span class="header-campaign-name">NEFFEX Fan Pages</span>
+    <span class="header-status">Active</span>
+  </div>
+  <button class="share-btn" onclick="navigator.clipboard&&navigator.clipboard.writeText(location.href)">Share ↗</button>
+</header>
+
+<div class="campaign-bar">
+  <div class="campaign-title">NEFFEX Fan Pages +</div>
+  <div class="campaign-meta">
+    <span>TikTok</span><span class="meta-sep">·</span>
+    <span>@neffexdaily · @savagebryce4life</span><span class="meta-sep">·</span>
+    <span>Last updated: 2026-03-18</span>
+  </div>
+</div>
+
+<nav class="tabs">
+  <div class="tab active" onclick="sw('overview',this)">Overview</div>
+  <div class="tab" onclick="sw('trends',this)">Trends</div>
+  <div class="tab" onclick="sw('videos',this)">Top Videos</div>
+  <div class="tab" onclick="sw('engagement',this)">Engagement</div>
+  <div class="tab" onclick="sw('posts',this)">Posts</div>
+</nav>
+
+<div class="date-filter-bar">
+  <span class="df-label">Filter</span>
+  <div class="dfbtn-group">
+    <button class="dfbtn active" onclick="setDF('all',this)">All Time</button>
+    <button class="dfbtn" onclick="setDF('7d',this)">7 Days</button>
+    <button class="dfbtn" onclick="setDF('30d',this)">30 Days</button>
+    <button class="dfbtn" onclick="setDF('90d',this)">90 Days</button>
+    <button class="dfbtn" onclick="setDF('custom',this)">Custom</button>
+  </div>
+  <div class="custom-dates" id="custom-dates">
+    <input type="date" id="dFrom" onchange="onCustomDate()">
+    <span class="csep">–</span>
+    <input type="date" id="dTo" onchange="onCustomDate()">
+  </div>
+  <span class="df-count" id="df-count"></span>
+</div>
+
+<div class="content">
+
+<div id="tab-overview" class="section active"><div id="ov-content"></div></div>
+
+<div id="tab-trends" class="section">
+  <div style="margin-top:28px">
+    <div class="metric-row">
+      <div class="mpill active" data-m="views" onclick="setM('views')">Views</div>
+      <div class="mpill" data-m="likes" onclick="setM('likes')">Likes</div>
+      <div class="mpill" data-m="comments" onclick="setM('comments')">Comments</div>
+      <div class="mpill" data-m="shares" onclick="setM('shares')">Shares</div>
+      <div class="mpill" data-m="saves" onclick="setM('saves')">Saves</div>
+    </div>
+    <div class="chart-grid one" style="margin-bottom:1px">
+      <div class="chart-card">
+        <div class="chart-title" id="tt">Views Over Time</div>
+        <div class="chart-sub">Each point = one video · sorted by date posted</div>
+        <canvas id="trendChart" height="280"></canvas>
+      </div>
+    </div>
+    <div class="chart-grid two">
+      <div class="chart-card"><div class="chart-title">@neffexdaily — Daily Views</div><div class="chart-sub">Sum of views per day</div><canvas id="dc0" height="200"></canvas></div>
+      <div class="chart-card"><div class="chart-title">@savagebryce4life — Daily Views</div><div class="chart-sub">Sum of views per day</div><canvas id="dc1" height="200"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<div id="tab-videos" class="section">
+  <div class="table-wrap" style="margin-top:28px">
+    <div class="table-head-bar">
+      <h3>All Videos — Ranked</h3>
+      <div class="tfilter-group">
+        <button class="tfbtn active" onclick="fTbl('all',this)">All</button>
+        <button class="tfbtn" onclick="fTbl('neffexdaily',this)">@neffexdaily</button>
+        <button class="tfbtn" onclick="fTbl('savagebryce4life',this)">@savagebryce4life</button>
+      </div>
+    </div>
+    <div class="table-scroll"><table>
+      <thead><tr>
+        <th onclick="srt('rank')">#</th>
+        <th>Account</th>
+        <th onclick="srt('date')">Date ↕</th>
+        <th onclick="srt('views')">Views ↓</th>
+        <th onclick="srt('likes')">Likes ↕</th>
+        <th onclick="srt('comments')">Comments ↕</th>
+        <th onclick="srt('shares')">Shares ↕</th>
+        <th onclick="srt('saves')">Saves ↕</th>
+        <th onclick="srt('engRateNum')">Eng. Rate ↕</th>
+        <th>Description</th>
+      </tr></thead>
+      <tbody id="vtb"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<div id="tab-engagement" class="section">
+  <div style="margin-top:28px">
+    <div class="chart-grid two" style="margin-bottom:1px">
+      <div class="chart-card"><div class="chart-title">Engagement Mix — @neffexdaily</div><div class="chart-sub">Share of total engagement by type</div><div style="max-width:280px;margin:0 auto"><canvas id="dn0" height="240"></canvas></div></div>
+      <div class="chart-card"><div class="chart-title">Engagement Mix — @savagebryce4life</div><div class="chart-sub">Share of total engagement by type</div><div style="max-width:280px;margin:0 auto"><canvas id="dn1" height="240"></canvas></div></div>
+    </div>
+    <div class="chart-grid one" style="margin-bottom:1px"><div class="chart-card"><div class="chart-title">Engagement Breakdown — @neffexdaily</div><div class="chart-sub">Stacked: likes · comments · shares · saves · downloads</div><canvas id="sb0" height="240"></canvas></div></div>
+    <div class="chart-grid one" style="margin-bottom:1px"><div class="chart-card"><div class="chart-title">Engagement Breakdown — @savagebryce4life</div><div class="chart-sub">Stacked: likes · comments · shares · saves · downloads</div><canvas id="sb1" height="240"></canvas></div></div>
+  </div>
+</div>
+
+<div id="tab-posts" class="section">
+  <div style="margin-top:28px">
+    <div class="posts-summary" id="psumbar"></div>
+    <div class="post-filters" id="pfbar"></div>
+    <div class="posts-note">Thumbnails load from TikTok when opened with internet · Click any card to open the original post</div>
+    <div class="pgrid" id="pg"></div>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<script>
+/* ── Raw data ──────────────────────────────────────────────────────────── */
+const acct0=[
+  {url:'https://www.tiktok.com/@neffexdaily/video/7614083512542524703',date:'2026-03-06',views:84973,likes:6066,comments:29,shares:104,saves:1530,downloads:87,desc:'🔥 viral EDM throwback #neffex #motivation',account:'neffexdaily'},
+  {url:'https://www.tiktok.com/@neffexdaily/video/7614084313138597151',date:'2026-03-06',views:26945,likes:2200,comments:23,shares:58,saves:654,downloads:33,desc:'calling all 2016 EDM fans #neffex',account:'neffexdaily'},
+  {url:'https://www.tiktok.com/@neffexdaily/video/7610987118703827230',date:'2026-02-26',views:58678,likes:3358,comments:10,shares:53,saves:900,downloads:43,desc:'🔥 big viral #neffex #motivation',account:'neffexdaily'},
+  {url:'https://www.tiktok.com/@neffexdaily/video/7610662803266453790',date:'2026-02-25',views:29080,likes:1427,comments:5,shares:30,saves:362,downloads:29,desc:'trending #neffex #hype',account:'neffexdaily'}
+];
+const acct1=[
+  {url:'https://www.tiktok.com/@savagebryce4life/video/7615125143970385183',date:'2026-03-08',views:1312,likes:75,comments:1,shares:49,saves:14,downloads:2,desc:'for the good girls 🫶 #brycesavage',account:'savagebryce4life'},
+  {url:'https://www.tiktok.com/@savagebryce4life/video/7614661618406897951',date:'2026-03-07',views:3692,likes:236,comments:2,shares:124,saves:48,downloads:6,desc:'🔥 viral clip #brycesavage',account:'savagebryce4life'}
+];
+const allRaw = [...acct0,...acct1].sort((a,b)=>b.date.localeCompare(a.date));
+const allAccts = [...new Set(allRaw.map(v=>v.account))];
+
+/* ── Date filter state ─────────────────────────────────────────────────── */
+let dateFilter='all', dFrom='', dTo='';
+
+function getFiltered() {
+  if (dateFilter==='all') return allRaw.slice();
+  if (dateFilter==='7d'||dateFilter==='30d'||dateFilter==='90d') {
+    const days = parseInt(dateFilter);
+    const cutoff = new Date(); cutoff.setDate(cutoff.getDate()-days);
+    const cs = cutoff.toISOString().slice(0,10);
+    return allRaw.filter(v=>v.date>=cs);
+  }
+  if (dateFilter==='custom') {
+    return allRaw.filter(v=>{
+      if (dFrom && v.date < dFrom) return false;
+      if (dTo   && v.date > dTo)   return false;
+      return true;
+    });
+  }
+  return allRaw.slice();
+}
+
+function getFilteredV() {
+  return getFiltered()
+    .slice().sort((a,b)=>b.views-a.views)
+    .map((v,i)=>({
+      ...v,
+      rank: i+1,
+      engRateNum: v.views>0 ? (v.likes+v.comments+v.shares+v.saves)/v.views*100 : 0,
+      engRate: v.views>0 ? ((v.likes+v.comments+v.shares+v.saves)/v.views*100).toFixed(1)+'%' : '—'
+    }));
+}
+
+function setDF(f, btn) {
+  dateFilter = f;
+  document.querySelectorAll('.dfbtn').forEach(b=>b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const cd = document.getElementById('custom-dates');
+  if (cd) cd.style.display = f==='custom' ? 'flex' : 'none';
+  applyFilter();
+}
+
+function onCustomDate() {
+  dFrom = document.getElementById('dFrom').value;
+  dTo   = document.getElementById('dTo').value;
+  applyFilter();
+}
+
+function updateDfCount() {
+  const n = getFiltered().length;
+  const el = document.getElementById('df-count');
+  if (el) el.textContent = dateFilter==='all' ? '' : n+' video'+(n!==1?'s':'');
+}
+
+/* ── Chart registry ────────────────────────────────────────────────────── */
+const charts = {};
+function dch(id) { if (charts[id]) { charts[id].destroy(); delete charts[id]; } }
+
+/* ── Tab switching ─────────────────────────────────────────────────────── */
+const built = {tr:false,tb:false,en:false,po:false};
+
+function applyFilter() {
+  updateDfCount();
+  Object.keys(built).forEach(k=>built[k]=false);
+  const sec = document.querySelector('.section.active');
+  if (!sec) return;
+  const id = sec.id.replace('tab-','');
+  if      (id==='overview')    bOverview();
+  else if (id==='trends')      { ['trendChart','dc0','dc1'].forEach(dch); bTrend(); built.tr=true; }
+  else if (id==='videos')      rTbl();
+  else if (id==='engagement')  { ['dn0','dn1','sb0','sb1'].forEach(dch); bEng(); built.en=true; }
+  else if (id==='posts')       { bPosts(getFiltered()); built.po=true; }
+}
+
+function sw(n, el) {
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+n).classList.add('active');
+  el.classList.add('active');
+  if (n==='trends'    && !built.tr) { bTrend(); built.tr=true; }
+  if (n==='videos'    && !built.tb) { rTbl();   built.tb=true; }
+  if (n==='engagement'&& !built.en) { bEng();   built.en=true; }
+  if (n==='posts'     && !built.po) { bPosts(getFiltered()); built.po=true; }
+}
+
+/* ── Helpers ───────────────────────────────────────────────────────────── */
+const thumbCache = {};
+function fn(n) { return n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':n.toString(); }
+function sm(arr,k) { return arr.reduce((s,v)=>s+v[k],0); }
+
+/* ── Overview (fully dynamic so date filter works) ─────────────────────── */
+function bOverview() {
+  const f = getFiltered();
+  let html = '';
+
+  allAccts.forEach(acct => {
+    const data = f.filter(v=>v.account===acct);
+    if (!data.length) {
+      html += `<div class="stat-section"><div class="stat-section-label">@${acct}</div><div class="empty-msg">No videos in selected date range</div></div>`;
+      return;
+    }
+    const n=data.length, tv=sm(data,'views'), tl=sm(data,'likes'),
+          tc=sm(data,'comments'), ts=sm(data,'shares'), tsa=sm(data,'saves'), td=sm(data,'downloads');
+    const lr = tv>0?(tl/tv*100).toFixed(1):'0';
+    const sr = tv>0?(tsa/tv*100).toFixed(1):'0';
+    html += `<div class="stat-section">
+      <div class="stat-section-label">@${acct}</div>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-label">Total Views</div><div class="stat-value">${tv.toLocaleString()}</div><div class="stat-sub">${n} video${n!==1?'s':''} · avg ${Math.round(tv/n).toLocaleString()}</div></div>
+        <div class="stat-card"><div class="stat-label">Total Likes</div><div class="stat-value">${tl.toLocaleString()}</div><div class="stat-sub">${lr}% like rate</div></div>
+        <div class="stat-card"><div class="stat-label">Comments</div><div class="stat-value">${tc.toLocaleString()}</div><div class="stat-sub">avg ${(tc/n).toFixed(1)}/video</div></div>
+        <div class="stat-card"><div class="stat-label">Shares</div><div class="stat-value">${ts.toLocaleString()}</div></div>
+        <div class="stat-card"><div class="stat-label">Saves</div><div class="stat-value">${tsa.toLocaleString()}</div><div class="stat-sub">${sr}% save rate</div></div>
+        <div class="stat-card"><div class="stat-label">Downloads</div><div class="stat-value">${td.toLocaleString()}</div><div class="stat-sub">avg ${(td/n).toFixed(1)}/video</div></div>
+      </div>
+    </div>`;
+  });
+
+  /* Page compare — centered, works for 1, 2 or more accounts */
+  const activeAccts = allAccts.filter(a=>f.some(v=>v.account===a));
+  if (activeAccts.length) {
+    html += `<div class="stat-section-label" style="margin-top:32px;margin-bottom:16px">Page</div><div class="compare-grid">`;
+    activeAccts.forEach(acct => {
+      const data = f.filter(v=>v.account===acct);
+      const tv   = sm(data,'views');
+      const best = Math.max(...data.map(v=>v.views));
+      const avgEng = data.length
+        ? data.reduce((s,v)=>s+(v.views>0?(v.likes+v.comments+v.shares+v.saves)/v.views*100:0),0)/data.length
+        : 0;
+      const spv  = data.length ? (sm(data,'saves')/data.length).toFixed(1) : '—';
+      const dates = data.map(v=>v.date).sort();
+      const dr   = dates.length>1 ? dates[0]+' – '+dates[dates.length-1] : (dates[0]||'—');
+      html += `<div class="compare-card">
+        <div class="compare-card-title">@${acct}</div>
+        <div class="compare-row"><span class="cl">Videos posted</span><span class="cv">${data.length}</span></div>
+        <div class="compare-row"><span class="cl">Total views</span><span class="cv">${tv.toLocaleString()}</span></div>
+        <div class="compare-row"><span class="cl">Best single video</span><span class="cv">${best.toLocaleString()} views</span></div>
+        <div class="compare-row"><span class="cl">Avg engagement rate</span><span class="cv">${avgEng.toFixed(1)}%</span></div>
+        <div class="compare-row"><span class="cl">Saves per video</span><span class="cv">${spv}</span></div>
+        <div class="compare-row"><span class="cl">Date range</span><span class="cv">${dr}</span></div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  document.getElementById('ov-content').innerHTML = html;
+}
+
+/* ── Posts tab ─────────────────────────────────────────────────────────── */
+let curPF = 'all';
+
+function bPosts(data) {
+  curPF = 'all';
+  // Summary bar
+  const sb = document.getElementById('psumbar');
+  if (sb) {
+    const tv=sm(data,'views'),tl=sm(data,'likes'),ts=sm(data,'shares'),tsa=sm(data,'saves');
+    sb.innerHTML = `<div class="psum"><div class="psum-val">${data.length}</div><div class="psum-lbl">Total Posts</div></div>`+
+      `<div class="psum"><div class="psum-val">${tv.toLocaleString()}</div><div class="psum-lbl">Total Views</div></div>`+
+      `<div class="psum"><div class="psum-val">${tl.toLocaleString()}</div><div class="psum-lbl">Total Likes</div></div>`+
+      `<div class="psum"><div class="psum-val">${ts.toLocaleString()}</div><div class="psum-lbl">Total Shares</div></div>`+
+      `<div class="psum"><div class="psum-val">${tsa.toLocaleString()}</div><div class="psum-lbl">Total Saves</div></div>`;
+  }
+  // Per-account filter buttons
+  const pb = document.getElementById('pfbar');
+  if (pb) {
+    let btns = `<button class="pfbtn active" onclick="fPosts('all',this)">All (${data.length})</button>`;
+    allAccts.forEach(a=>{
+      const cnt = data.filter(v=>v.account===a).length;
+      btns += `<button class="pfbtn" onclick="fPosts('${a}',this)">@${a} (${cnt})</button>`;
+    });
+    pb.innerHTML = btns;
+  }
+  renderPosts(data);
+}
+
+function renderPosts(data) {
+  const g = document.getElementById('pg'); g.innerHTML = '';
+  data.forEach(v => {
+    const id = 't'+v.url.split('/').pop();
+    const card = document.createElement('a');
+    card.className='pcard'; card.href=v.url; card.target='_blank'; card.rel='noopener';
+    card.innerHTML = `<div class="pthumb" id="${id}"><div class="ph"><div class="tl">*</div><div class="sp"></div><div class="lt">Loading</div></div><div class="pplat">TT</div><div class="pso"><span class="ostat">▶ ${fn(v.views)}</span><span class="ostat">♥ ${fn(v.likes)}</span></div></div><div class="pfoot"><div class="puser">${v.account}</div><div class="pdesc">${v.desc}</div><div class="pstats"><span class="pchip">↩ ${v.shares}</span><span class="pchip">◈ ${v.saves}</span></div><div class="pdate">${v.date}</div></div>`;
+    g.appendChild(card);
+    lThumb(v.url, id);
+  });
+}
+
+async function lThumb(url, id) {
+  if (thumbCache[url]) { aThumb(id, thumbCache[url]); return; }
+  try {
+    const r = await fetch('https://www.tiktok.com/oembed?url='+encodeURIComponent(url));
+    if (!r.ok) throw 0;
+    const d = await r.json();
+    if (d.thumbnail_url) { thumbCache[url]=d.thumbnail_url; aThumb(id,d.thumbnail_url); } else sFb(id);
+  } catch(e) { sFb(id); }
+}
+function aThumb(id, src) {
+  const c = document.getElementById(id); if (!c) return;
+  const p = c.querySelector('.ph'); if (p) p.remove();
+  const img = document.createElement('img'); img.src=src; img.alt='';
+  img.style.opacity='0'; img.onload=()=>img.style.opacity='1';
+  img.onerror=()=>{ sFb(id); img.remove(); };
+  c.insertBefore(img, c.querySelector('.pso')||c.querySelector('.pplat'));
+}
+function sFb(id) {
+  const c = document.getElementById(id); if (!c) return;
+  const p = c.querySelector('.ph');
+  if (p) p.innerHTML='<div class="tl" style="opacity:.15">*</div><div class="lt">Unavailable</div>';
+}
+function fPosts(f, btn) {
+  curPF = f;
+  document.querySelectorAll('.pfbtn').forEach(b=>b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const base = getFiltered();
+  renderPosts(f==='all' ? base : base.filter(v=>v.account===f));
+}
+
+/* ── Top Videos table ──────────────────────────────────────────────────── */
+let cf='all', sc='views', sa=false;
+function fTbl(f, btn) { cf=f; document.querySelectorAll('.tfbtn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); rTbl(); }
+function srt(col) { if(sc===col) sa=!sa; else { sc=col; sa=col==='date'; } rTbl(); }
+function rTbl() {
+  const allV = getFilteredV();
+  let data = cf==='all' ? allV : allV.filter(v=>v.account===cf);
+  data = [...data].sort((a,b)=>{
+    let va=a[sc], vb=b[sc];
+    if (typeof va==='string') return sa ? va.localeCompare(vb) : vb.localeCompare(va);
+    return sa ? va-vb : vb-va;
+  });
+  const mx = Math.max(...(allV.length ? allV.map(v=>v.views) : [1]));
+  document.getElementById('vtb').innerHTML = data.map((v,i)=>`<tr class="vrow" onclick="window.open('${v.url}','_blank')">
+    <td style="font-weight:700;color:#888;font-size:11px">${i+1}</td>
+    <td><span class="acct-tag">${v.account}</span></td>
+    <td style="color:#888;white-space:nowrap;font-size:11px">${v.date}</td>
+    <td><div class="mb"><span style="min-width:60px;font-weight:700;font-size:13px">${v.views.toLocaleString()}</span><div class="bbg"><div class="bf" style="width:${(v.views/mx*100).toFixed(1)}%"></div></div></div></td>
+    <td style="font-weight:600">${v.likes.toLocaleString()}</td>
+    <td>${v.comments}</td>
+    <td>${v.shares}</td>
+    <td>${v.saves}</td>
+    <td style="font-weight:600">${v.engRate}</td>
+    <td class="td-desc" title="${v.desc}">${v.desc}</td>
+  </tr>`).join('');
+  built.tb = true;
+}
+
+/* ── Trends ────────────────────────────────────────────────────────────── */
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.font.size   = 11;
+const GRID_COLOR  = '#e8e8e4';
+const LABEL_COLOR = '#888';
+const scaleOpts = {
+  x: { ticks:{color:LABEL_COLOR,maxTicksLimit:10}, grid:{color:GRID_COLOR}, border:{color:'#000'} },
+  y: { ticks:{color:LABEL_COLOR,callback:v=>v>=1000?(v/1000).toFixed(0)+'K':v}, grid:{color:GRID_COLOR}, border:{color:'#000'} }
+};
+const mL = {views:'Views Over Time',likes:'Likes Over Time',comments:'Comments Over Time',shares:'Shares Over Time',saves:'Saves Over Time'};
+let curM = 'views', _ta0=[], _ta1=[];
+
+function gbd(arr,m) { const o={}; arr.slice().sort((a,b)=>a.date.localeCompare(b.date)).forEach(v=>{o[v.date]=(o[v.date]||0)+v[m];}); return o; }
+function mkBar(id, labels, data) {
+  dch(id);
+  charts[id] = new Chart(document.getElementById(id),{type:'bar',data:{labels,datasets:[{data,backgroundColor:'#000',borderColor:'#000',borderWidth:0,borderRadius:0}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.parsed.y.toLocaleString()}`}}},scales:scaleOpts}});
+}
+
+function bTrend() {
+  dch('trendChart');
+  const f = getFiltered();
+  _ta0 = f.filter(v=>v.account==='neffexdaily').sort((a,b)=>a.date.localeCompare(b.date));
+  _ta1 = f.filter(v=>v.account==='savagebryce4life').sort((a,b)=>a.date.localeCompare(b.date));
+  charts.trendChart = new Chart(document.getElementById('trendChart'),{type:'line',
+    data:{labels:_ta0.map(v=>v.date),datasets:[
+      {label:'@neffexdaily',data:_ta0.map(v=>v[curM]),borderColor:'#000',backgroundColor:'rgba(0,0,0,0.06)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#000',tension:0.3,fill:true},
+      {label:'@savagebryce4life',data:_ta1.map(v=>v[curM]),borderColor:'#888',backgroundColor:'rgba(136,136,136,0.04)',borderWidth:1.5,pointRadius:3,pointBackgroundColor:'#888',tension:0.3,fill:true,borderDash:[4,3]}
+    ]},
+    options:{responsive:true,interaction:{mode:'index',intersect:false},
+      plugins:{legend:{labels:{color:'#333',boxWidth:12,font:{size:11,weight:'500'}}},tooltip:{callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y!==null?ctx.parsed.y.toLocaleString():'—'}`}}},
+      scales:scaleOpts}});
+  const nd0=gbd(_ta0,'views'); mkBar('dc0',Object.keys(nd0),Object.values(nd0));
+  const nd1=gbd(_ta1,'views'); mkBar('dc1',Object.keys(nd1),Object.values(nd1));
+  document.querySelectorAll('.mpill').forEach(p=>p.classList.toggle('active',p.dataset.m===curM));
+  document.getElementById('tt').textContent = mL[curM];
+}
+
+function setM(m) {
+  curM = m;
+  document.querySelectorAll('.mpill').forEach(p=>p.classList.toggle('active',p.dataset.m===m));
+  document.getElementById('tt').textContent = mL[m];
+  if (!charts.trendChart) return;
+  charts.trendChart.data.datasets[0].data = _ta0.map(v=>v[m]);
+  charts.trendChart.data.datasets[1].data = _ta1.map(v=>v[m]);
+  charts.trendChart.update();
+}
+
+/* ── Engagement ────────────────────────────────────────────────────────── */
+function bEng() {
+  ['dn0','dn1','sb0','sb1'].forEach(dch);
+  const f  = getFiltered();
+  const ea0 = f.filter(v=>v.account==='neffexdaily');
+  const ea1 = f.filter(v=>v.account==='savagebryce4life');
+  const ENG_COLORS = ['#000','#444','#777','#aaa','#ccc'];
+  const dOpts = (l,d) => ({type:'doughnut',data:{labels:l,datasets:[{data:d,backgroundColor:ENG_COLORS,borderColor:'#f4f3ef',borderWidth:3,hoverOffset:6}]},
+    options:{responsive:true,plugins:{legend:{position:'bottom',labels:{color:'#333',padding:14,boxWidth:10,font:{size:10,weight:'600'}}},
+      tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed.toLocaleString()} (${(ctx.parsed/ctx.dataset.data.reduce((a,b)=>a+b)*100).toFixed(1)}%)`}}}}});
+  function mkSB(id, data) {
+    dch(id); if (!data.length) return;
+    const labels = data.map((v,i)=>`${v.date.slice(5)}(${i+1})`);
+    charts[id] = new Chart(document.getElementById(id),{type:'bar',
+      data:{labels,datasets:[
+        {label:'Likes',data:data.map(v=>v.likes),backgroundColor:'#000',stack:'e'},
+        {label:'Comments',data:data.map(v=>v.comments),backgroundColor:'#444',stack:'e'},
+        {label:'Shares',data:data.map(v=>v.shares),backgroundColor:'#777',stack:'e'},
+        {label:'Saves',data:data.map(v=>v.saves),backgroundColor:'#aaa',stack:'e'},
+        {label:'Downloads',data:data.map(v=>v.downloads),backgroundColor:'#ccc',stack:'e'}
+      ]},
+      options:{responsive:true,interaction:{mode:'index'},
+        plugins:{legend:{labels:{color:'#333',boxWidth:10,font:{size:10,weight:'500'}}}},
+        scales:{x:{...scaleOpts.x,stacked:true,ticks:{...scaleOpts.x.ticks,maxRotation:45}},y:{...scaleOpts.y,stacked:true}}}});
+  }
+  charts.dn0 = new Chart(document.getElementById('dn0'),dOpts(['Likes','Comments','Shares','Saves','Downloads'],[sm(ea0,'likes'),sm(ea0,'comments'),sm(ea0,'shares'),sm(ea0,'saves'),sm(ea0,'downloads')]));
+  charts.dn1 = new Chart(document.getElementById('dn1'),dOpts(['Likes','Comments','Shares','Saves','Downloads'],[sm(ea1,'likes'),sm(ea1,'comments'),sm(ea1,'shares'),sm(ea1,'saves'),sm(ea1,'downloads')]));
+  mkSB('sb0',[...ea0].sort((a,b)=>a.date.localeCompare(b.date)));
+  mkSB('sb1',[...ea1].sort((a,b)=>a.date.localeCompare(b.date)));
+}
+
+/* ── Init ──────────────────────────────────────────────────────────────── */
+bOverview();
+rTbl();
+</script>
+</body>
+</html>
